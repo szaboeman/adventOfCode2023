@@ -27,14 +27,7 @@ namespace day2 {
             rgb = Array.ConvertAll(input.Skip(1).ToArray(), x => new RGB(x)).ToList();
         }
 
-        public bool isPossible() {
-            foreach (var item in rgb) {
-                if (!(item.r <= 12 && item.g <= 13 && item.b <= 14)) {
-                    return false;
-                }
-            }
-            return true;
-        }
+        public bool getIsPossible => rgb.FindAll(x => x.r <= 12 && x.g <= 13 && x.b <= 14).Count == rgb.Count;
 
         public int getMinRGB {
             get {
@@ -53,7 +46,7 @@ namespace day2 {
             List<Game> input = Array.ConvertAll(
                 File.ReadAllLines("../../input.txt"), x=>new Game(x)
             ).ToList();
-            Console.WriteLine(input.FindAll(x=>x.isPossible()).Select(x=>x.index).Sum());
+            Console.WriteLine(input.FindAll(x=>x.getIsPossible).Select(x=>x.index).Sum());
             Console.WriteLine(input.Select(x=>x.getMinRGB).Sum());  
             Console.ReadKey();
         }
