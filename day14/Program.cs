@@ -68,28 +68,7 @@ namespace day14 {
                 }
             }
         }
-        public string kiir() {
-            string s = "";
-            foreach (var row in map) {
-                foreach (var c in row) {
-                    s += c.ToString();
-                }
-                s += "\n";
-            }
-            return s; 
-        }
-        public long megszamol() {
-            int value = 0;
-            for (int i = 0; i < map.Count; i++) {
-                for (int j = 0; j < map[i].Count; j++) {
-                    if (map[i][j] == 'O') {
-                        value += (map.Count - i);
-                    }
-                }
-            }
-            return value;
-        }
-        public long megszamol(string map) {
+        public long count(string map) {
             int value = 0;
             for (int i = 0; i < map.Length; i++) {
                 int sorIndex = i / this.map[0].Count;
@@ -99,11 +78,9 @@ namespace day14 {
             }
             return value;
         }
-
-
         public long taskA() {
             moveNorth();
-            return megszamol();
+            return count(string.Join("",map.Select(x=>string.Join("",x))));
         }
 
         public long taskB(int cycyles) {
@@ -115,17 +92,16 @@ namespace day14 {
                 moveEast();
                 string newMap = string.Join("", map.SelectMany(x => x));
                 if (check.Any(x=>x==newMap)) {
-                    int mettol = check.FindIndex(x =>x==newMap);
-                    int intervallum = i - mettol;
-                    int maradek = (cycyles-mettol) % (intervallum);
-                    return megszamol(check[mettol+maradek-1]);
+                    int start = check.FindIndex(x =>x==newMap);
+                    int intervallum = i - start;
+                    int modulo = (cycyles-start) % (intervallum);
+                    return count(check[start+modulo-1]);
                 } else {
                     check.Add(newMap);
                 }
             }
             return 0;
         }
-
     }
     internal class Program {
         static void Main(string[] args) {
